@@ -1,0 +1,81 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int input;
+int bin = 0; 
+int abin[32];
+int rbin[32];
+int maxd;
+
+void dec2bin1();
+void ArrBin();
+void antibit();
+void bin2dec();
+
+int main() {
+    cout << "Enter the integer: ";
+    cin >> input;
+    dec2bin1();
+    ArrBin();
+    antibit();
+    bin2dec();
+    return 0;
+}
+
+void ArrBin() {
+    int length = ceil(log2(input));
+    int x = length - 1;
+    int bin_t = bin;
+    for (int k = x; k >= 0; k--) { 
+        abin[x - k] = floor(bin_t / (pow(10, k)));
+        bin_t = bin_t - abin[x - k] * pow(10, k);
+    }
+
+    cout << "By abin: ";
+    for (int n = 0; n <= x; n++) {
+        cout << abin[n];
+    }
+    cout << endl;
+}
+
+void dec2bin1() {
+    int q = input;
+    int length = ceil(log2(input));
+    int x = length - 1;
+    int l[x];
+
+    for (int i = x; i >= 0; i--) {
+        l[i] = floor(log2(q));
+        q = q - pow(2, l[i]);
+        bin = bin + pow(10, l[i]);
+    }
+
+    cout << "Binary number: " << bin << endl;
+}
+void antibit() {
+    int check_once = 1;
+    int length = ceil(log2(input));
+    int x = length - 1;
+    for (int m = 0; m <= x; m++){
+        rbin[m] = pow(abin[m] - 1, 2 );
+        if (rbin[m] == 1 && check_once == 1){ maxd = length - m;
+            check_once = check_once + 1;
+        }
+    }
+    cout << "Anti-binary: ";
+    for (int z = 0; z <= x; z++) {
+        cout << rbin[z];
+    }
+    cout << endl;
+}
+void bin2dec() {
+//    cout << maxd;
+    int length = ceil(log2(input));
+    int x = length - 1;
+    int decOp = 0;
+        for ( int f = 0; f < maxd; f++){
+            decOp = decOp + rbin[x-f] * pow(2, f);
+        }
+    cout << "Output : " << decOp;
+}
